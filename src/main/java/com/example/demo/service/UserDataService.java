@@ -56,16 +56,14 @@ public class UserDataService {
         return user;
     }
 
-    public boolean removeUser(String username) {
+    public UserData removeUser(String username) {
         UserData res = this._findUserByUsername(username);
         if (res != null) {
             mongoTemplate.remove(res);
-        } else {
-            return false;
         }
         // delete from redis cache
         redisTemplate.delete(username);
-        return true;
+        return res;
     }
 
     private UserData _findUserByUsername(String username) {
